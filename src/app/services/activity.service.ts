@@ -32,7 +32,7 @@ export class ActivityService {
     })
   }
 
-  addActivity(activity: Activity): Observable<Activity> {
+  addActivity(activity: Activity): Observable<any> {
     return this.http.post(`http://localhost:3000/activities`, activity);
   }
 

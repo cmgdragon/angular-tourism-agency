@@ -54,7 +54,6 @@ export class UserEducationComponent implements OnChanges, OnInit {
     }
 
     if (this.education) {
-      console.log(this.education.level)
       this.setName = this.education.name;
       this.setType = this.education.type;
       this.setUniversity = this.education.university;

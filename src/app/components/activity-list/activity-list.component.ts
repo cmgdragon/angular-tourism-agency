@@ -74,6 +74,7 @@ export class ActivityListComponent implements OnInit {
         this.selectedActivityIndex = activityIndex;
         break;
       default:
+        this.selectedActivity = undefined;
         this.selectedActivity = activity;
         this.selectedActivityIndex = activityIndex;
     }
@@ -92,9 +93,11 @@ export class ActivityListComponent implements OnInit {
         this.activityList.splice(this.selectedActivityIndex, 1);
         break;
       case 'edit':
+        this.selectedActivity = undefined;
         this.activityList[this.selectedActivityIndex] = activity;
         break;
       case 'add':
+        this.selectedActivity = undefined;
         this.activityList.push(activity);
     }
   }
