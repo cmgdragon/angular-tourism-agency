@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/User';
-import { passwordMatch, selectOneOption, hasWhitespaces, hasSpecialChars, isDate } from '../../custom-validators';
+import { isDate } from '../../custom-validators';
 import { UserService } from 'src/app/services/user.service';
 import { Activity } from 'src/app/models/Activity';
 import { ActivityService } from 'src/app/services/activity.service';
@@ -18,9 +18,9 @@ export class UserActivityComponent implements OnInit {
   @Input() action: string;
   @Output() modifiedActivity = new EventEmitter<Activity>();
 
-  cultura_subcategory: Array<{value: string, label: string}>;
-  enoturismo_subcategory: Array<{value: string, label: string}>;
-  playa_subcategory: Array<{value: string, label: string}>;
+  cultura_subcategory: Array<{ value: string, label: string }>;
+  enoturismo_subcategory: Array<{ value: string, label: string }>;
+  playa_subcategory: Array<{ value: string, label: string }>;
   selected_subcategory: any;
   activityList: Array<Activity>;
   userId: number;
@@ -58,10 +58,9 @@ export class UserActivityComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUser(this.userId).subscribe((user: User) =>
-    { this.user = user });
-    this.activityService.getUserActivities(this.userId).subscribe((activities: Array<Activity>) =>
-    { this.activityList = activities });
+    this.userService.getUser(this.userId).subscribe((user: User) => { this.user = user });
+    this.activityService.getUserActivities(this.userId).subscribe((activities: Array<Activity>) => { this.activityList = activities });
+    this.activityGroup.markAllAsTouched();
   }
 
   ngOnChanges(): void {
@@ -87,10 +86,10 @@ export class UserActivityComponent implements OnInit {
     name: ['', [Validators.required]],
     category: ['', Validators.required],
     subcategory: ['', Validators.required],
-    description: ['', ],
+    description: ['',],
     language: ['', Validators.required],
     date: ['', isDate()],
-    price: ['', [Validators.required, Validators.pattern(/\d+(\.\d{1,2})?/)]]
+    price: ['', [Validators.required, Validators.pattern(/^\d{0,2}(\.\d{1,2})?$/)]]
   });
 
   get name() { return this.activityGroup.get('name'); }
@@ -121,6 +120,7 @@ export class UserActivityComponent implements OnInit {
         this.selected_subcategory = this.playa_subcategory;
     }
     this.setCategory = this.category.value;
+    this.subcategory.markAsTouched();
   }
 
   handleChange(): void {
@@ -156,25 +156,25 @@ export class UserActivityComponent implements OnInit {
 
     if (this.activityGroup.valid) {
 
-        this.activity.name = this.name.value;
-        this.activity.category = this.category.value;
-        this.activity.subcategory = this.subcategory.value;
-        this.activity.description = this.description.value;
-        this.activity.language = this.language.value;
-        this.activity.date = this.date.value;
-        this.activity.price = this.price.value;
-        this.activity.user = this.user.id;
-      }
+      this.activity.name = this.name.value;
+      this.activity.category = this.category.value;
+      this.activity.subcategory = this.subcategory.value;
+      this.activity.description = this.description.value;
+      this.activity.language = this.language.value;
+      this.activity.date = this.date.value;
+      this.activity.price = this.price.value;
+      this.activity.user = this.user.id;
+    }
 
-      if (this.activityIndex) {
-        this.activityService.updateActivity(this.activity);
-      } else {
-        this.activity.registered = [];
-        this.activityService.addActivity(this.activity);
-      }
+    if (this.activityIndex) {
+      this.activityService.updateActivity(this.activity);
+    } else {
+      this.activity.registered = [];
+      this.activityService.addActivity(this.activity);
+    }
 
-      this.updateInMemoryActivity(this.activity);
-      alert('Profile saved');
+    this.updateInMemoryActivity(this.activity);
+    alert('Activity saved');
 
   }
 

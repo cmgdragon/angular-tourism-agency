@@ -17,8 +17,8 @@ export class UserEducationComponent implements OnChanges, OnInit {
   @Input() action: string;
   @Output() modifiedEducation = new EventEmitter<User>();
 
-  university_levels: Array<{value: string, label: string}>;
-  ciclo_levels: Array<{value: string, label: string}>;
+  university_levels: Array<{ value: string, label: string }>;
+  ciclo_levels: Array<{ value: string, label: string }>;
   selected_level: any;
   user: User;
 
@@ -42,8 +42,8 @@ export class UserEducationComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUser(this.userService.getUserId()).subscribe((user: User) =>
-    { this.user = user });
+    this.userService.getUser(this.userService.getUserId()).subscribe((user: User) => { this.user = user });
+    this.educationGroup.markAllAsTouched();
   }
 
   ngOnChanges(): void {
@@ -65,8 +65,8 @@ export class UserEducationComponent implements OnChanges, OnInit {
 
   public educationGroup: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(55)]],
-    type: ['', ],
-    level: ['', ],
+    type: ['', Validators.required],
+    level: ['', Validators.required],
     university: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(55)]],
     finish_date: ['', isDate()]
   });
@@ -92,6 +92,7 @@ export class UserEducationComponent implements OnChanges, OnInit {
         this.selected_level = this.ciclo_levels;
     }
     this.setLevel = this.education.level;
+    this.level.markAsTouched();
   }
 
   handleChange(): void {
@@ -115,19 +116,19 @@ export class UserEducationComponent implements OnChanges, OnInit {
 
     if (this.educationGroup.valid) {
 
-        const educationIndex = this.educationIndex ?? undefined;
+      const educationIndex = this.educationIndex ?? undefined;
 
-        if (this.educationIndex || this.educationIndex === 0) {
+      if (this.educationIndex || this.educationIndex === 0) {
 
-          this.user.education[educationIndex].name = this.name.value;
-          this.user.education[educationIndex].type = this.type.value;
-          this.user.education[educationIndex].level = this.level.value;
-          this.user.education[educationIndex].university = this.university.value;
-          this.user.education[educationIndex].finish_date = this.finish_date.value;
+        this.user.education[educationIndex].name = this.name.value;
+        this.user.education[educationIndex].type = this.type.value;
+        this.user.education[educationIndex].level = this.level.value;
+        this.user.education[educationIndex].university = this.university.value;
+        this.user.education[educationIndex].finish_date = this.finish_date.value;
 
-        } else {
+      } else {
 
-          this.user.education.push({
+        this.user.education.push({
           name: this.name.value,
           type: this.type.value,
           level: this.level.value,

@@ -17,14 +17,18 @@
         <option value="titulo">Título universitario</option>
         <option value="ciclo">Ciclo formativo</option>
       </select>
+      <br />
+      <pre *ngIf="type?.errors?.required" class="error">Pick a Type</pre>
 
       <br /><br />
 
       Level
       <select id="level" class="form-control" formControlName="level" name="level">
-          <option *ngFor="let level of selected_level" [value]="level.value"
-          [selected]="level.value === education.level">{{level.label}}</option>
+        <option *ngFor="let level of selected_level" [value]="level.value" [selected]="level.value === education.level">
+          {{level.label}}</option>
       </select>
+      <br />
+      <pre *ngIf="level?.errors?.required" class="error">Pick a level</pre>
 
       <label for="university">
         University

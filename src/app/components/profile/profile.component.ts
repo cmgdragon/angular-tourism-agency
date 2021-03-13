@@ -21,8 +21,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUser(this.userService.getUserId()).subscribe((user: User) =>
-    {
+    this.userService.getUser(this.userService.getUserId()).subscribe((user: User) => {
       this.user = user;
       this.setName = user.name;
       this.setSurname = user.surname;
@@ -37,22 +36,23 @@ export class ProfileComponent implements OnInit {
         this.setCif = user.profile?.cif;
       }
     });
+    this.profile.markAllAsTouched();
   }
 
   public profile: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, hasWhitespaces(), hasSpecialChars(), Validators.minLength(3), Validators.maxLength(55)]],
     surname: ['', [hasWhitespaces(), hasSpecialChars(), Validators.minLength(3), Validators.maxLength(55)]],
     birthdate: ['', isDate()],
-    phone: ['', ],
+    phone: ['',],
     nationality: ['', [Validators.required]],
     nif: ['', [Validators.required, isNIF()]],
-    about: ['', ],
+    about: ['',],
     company_name: ['', [this.userService.getUserType() === 'company' ? Validators.required : Validators.nullValidator,
-                        this.userService.getUserType() === 'company' ? Validators.minLength(3) : Validators.nullValidator,
-                        this.userService.getUserType() === 'company' ? Validators.maxLength(255) : Validators.nullValidator,
-                        this.userService.getUserType() === 'company' ? hasWhitespaces(false) : Validators.nullValidator]
+    this.userService.getUserType() === 'company' ? Validators.minLength(3) : Validators.nullValidator,
+    this.userService.getUserType() === 'company' ? Validators.maxLength(255) : Validators.nullValidator,
+    this.userService.getUserType() === 'company' ? hasWhitespaces(false) : Validators.nullValidator]
     ],
-    company_description: ['', ],
+    company_description: ['',],
     cif: ['', this.userService.getUserType() === 'company' ? Validators.required : Validators.nullValidator]
   });
 
@@ -80,8 +80,6 @@ export class ProfileComponent implements OnInit {
 
 
   updateProfile(): void {
-
-    this.profile.markAllAsTouched();
 
     this.user.name = this.name.value;
     this.user.surname = this.surname.value;

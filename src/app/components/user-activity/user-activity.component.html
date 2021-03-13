@@ -11,21 +11,23 @@
       </label>
 
       Category
-      <select id="category" class="form-control" formControlName="category" name="category" (change)="handleChange()" required>
+      <select id="category" class="form-control" formControlName="category" name="category" (change)="handleChange()"
+        required>
         <option value="cultura">Cultura y pratrimonio</option>
         <option value="enoturismo">Enoturismo</option>
         <option value="playas">Playas</option>
-        <pre *ngIf="category?.errors?.required && category.touched" class="error">Category is required</pre>
       </select>
-
+      <br />
+      <pre *ngIf="category?.errors?.required" class="error">Pick a category</pre>
       <br /> <br />
 
       Subcategory
       <select id="subcategory" class="form-control" formControlName="subcategory" name="subcategory">
-          <option *ngFor="let subcategory of selected_subcategory" [value]="subcategory.value"
+        <option *ngFor="let subcategory of selected_subcategory" [value]="subcategory.value"
           [selected]="subcategory.value === activity.subcategory">{{subcategory.label}}</option>
       </select>
-      <pre *ngIf="subcategory?.errors?.required && subcategory.touched" class="error">Subcategory is required</pre>
+      <br />
+      <pre *ngIf="subcategory?.errors?.required" class="error">Pick a subcategory</pre>
 
       <br /> <br />
 
@@ -41,8 +43,9 @@
         <option value="es">Español</option>
         <option value="fr">Francés</option>
         <option value="de">Alemán</option>
-        <pre *ngIf="language?.errors?.required && language.touched" class="error">Language is required</pre>
       </select>
+      <br />
+      <pre *ngIf="language?.errors?.required" class="error">Pick a language</pre>
 
       <label for="date">
         Date
@@ -56,7 +59,7 @@
         Price
         <input type="text" id="price" name="price" formControlName="price" required>
         <pre *ngIf="price?.errors?.required && price.touched" class="error">Price is required</pre>
-        <pre *ngIf="price?.errors?.pattern" class="error">Must be a valid price</pre>
+        <pre *ngIf="price?.errors?.pattern" class="error">Must be a valid price (do not use commas)</pre>
       </label>
 
     </fieldset>
