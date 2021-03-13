@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { isNIF, isDate, hasWhitespaces, hasSpecialChars } from '../../custom-validators';
+import { isNIF, isDate, hasWhitespaces, hasSpecialChars } from '../../validators/custom-validators';
 import { User } from '../../models/User';
 import { UserService } from '../../services/user.service';
 

@@ -32,9 +32,8 @@ export class ActivityService {
     })
   }
 
-  addActivity(activity: Activity): void {
-    this.http.post(`http://localhost:3000/activities`, activity)
-    .subscribe(success => success);
+  addActivity(activity: Activity): Observable<Activity> {
+    return this.http.post(`http://localhost:3000/activities`, activity);
   }
 
   updateActivity(activity: Activity): void {

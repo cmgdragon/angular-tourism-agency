@@ -31,6 +31,7 @@ export class ActivityListComponent implements OnInit {
     this.route.data.subscribe(({type}) => {
 
       this.routeType = type;
+      if (!this.userService.getUserId()) return;
 
       switch (type) {
         case 'home':
@@ -38,11 +39,11 @@ export class ActivityListComponent implements OnInit {
             this.activityList = data; });
           break;
         case 'company':
-          this.activityService.getUserActivities(this.userId).subscribe(data => {
+          this.activityService.getUserActivities(this.userService.getUserId()).subscribe(data => {
             this.activityList = data; });
         case 'tourist':
           const activities: Array<Activity> = [];
-          this.userService.getUser(this.userId).subscribe((user: User) => {
+          this.userService.getUser(this.userService.getUserId()).subscribe((user: User) => {
             for (const id of user.activities) {
               this.activityService.getActivityById(id).subscribe((activity: Activity) => {
                 activities.push(activity);
@@ -62,6 +63,7 @@ export class ActivityListComponent implements OnInit {
 
     switch(action) {
       case 'show':
+        this.selectedActivity = undefined;
         this.activityService.getActivityById(activity.id).subscribe((activity: Activity) => {
           this.selectedActivity = activity;
           if (this.userId) {
@@ -89,13 +91,11 @@ export class ActivityListComponent implements OnInit {
       case 'delete':
         this.activityList.splice(this.selectedActivityIndex, 1);
         break;
-      default:
-        if (this.selectedActivityIndex) {
-          console.log(this.selectedActivityIndex)
-          this.activityList[this.selectedActivityIndex] = activity;
-        } else {
-          this.activityList.push(activity);
-        }
+      case 'edit':
+        this.activityList[this.selectedActivityIndex] = activity;
+        break;
+      case 'add':
+        this.activityList.push(activity);
     }
   }
 

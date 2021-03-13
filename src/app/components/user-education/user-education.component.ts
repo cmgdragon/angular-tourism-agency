@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/User';
-import { isDate } from '../../custom-validators';
+import { isDate } from '../../validators/custom-validators';
 import { UserEducation } from 'src/app/models/UserEducation';
 import { UserService } from 'src/app/services/user.service';
 

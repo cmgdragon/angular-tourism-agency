@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/User';
-import { isDate } from '../../custom-validators';
+import { isDate } from '../../validators/custom-validators';
 import { UserService } from 'src/app/services/user.service';
 import { Activity } from 'src/app/models/Activity';
 import { ActivityService } from 'src/app/services/activity.service';
@@ -58,8 +58,10 @@ export class UserActivityComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUser(this.userId).subscribe((user: User) => { this.user = user });
-    this.activityService.getUserActivities(this.userId).subscribe((activities: Array<Activity>) => { this.activityList = activities });
+    if (this.userId) {
+      this.userService.getUser(this.userId).subscribe((user: User) => { this.user = user });
+      this.activityService.getUserActivities(this.userId).subscribe((activities: Array<Activity>) => { this.activityList = activities });
+    }
     this.activityGroup.markAllAsTouched();
   }
 
@@ -89,7 +91,7 @@ export class UserActivityComponent implements OnInit {
     description: ['',],
     language: ['', Validators.required],
     date: ['', isDate()],
-    price: ['', [Validators.required, Validators.pattern(/^\d{0,2}(\.\d{1,2})?$/)]]
+    price: ['', [Validators.required, Validators.pattern(/^(\d+\.?\d*|\.\d+)$/)]]
   });
 
   get name() { return this.activityGroup.get('name'); }
@@ -144,7 +146,13 @@ export class UserActivityComponent implements OnInit {
         })
       }
 
-    } else { this.activity = undefined; }
+      this.activity = undefined;
+      this.activityIndex = undefined;
+
+    } else {
+      this.activity = undefined;
+      this.activityIndex = undefined;
+     }
   }
 
   updateInMemoryActivity(activity: Activity): void {
@@ -166,14 +174,16 @@ export class UserActivityComponent implements OnInit {
       this.activity.user = this.user.id;
     }
 
-    if (this.activityIndex) {
+    if (this.activity.id) {
       this.activityService.updateActivity(this.activity);
+      this.updateInMemoryActivity(this.activity);
     } else {
       this.activity.registered = [];
-      this.activityService.addActivity(this.activity);
+      this.activityService.addActivity(this.activity).subscribe((newActivity: Activity) => {
+        this.updateInMemoryActivity(newActivity);
+      })
     }
 
-    this.updateInMemoryActivity(this.activity);
     alert('Activity saved');
 
   }
