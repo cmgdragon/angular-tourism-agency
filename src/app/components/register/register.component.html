@@ -9,16 +9,16 @@
       Name
       <input type="text" id="name" name="name" formControlName="name" required>
       <pre *ngIf="name?.errors?.required && name.touched" class="error">Name is required</pre>
-      <pre *ngIf="name?.errors?.hasWhitespaces" class="error">Cannot contain white spaces at the beginning or end of the string</pre>
-      <pre *ngIf="!name?.errors?.required && name?.errors?.hasSpecialChars && name.touched" class="error">Cannot contain special characters</pre>
+      <pre *ngIf="name?.errors?.hasWhitespaces" class="error">Cannot contain white spaces at the beginning or end of the string</pre><br />
+      <pre *ngIf="!name?.errors?.required && name?.errors?.hasSpecialChars && name.value !== ''" class="error">Cannot contain special characters</pre>
     </label>
 
-    <label for="surname"d>
+    <label for="surname">
       Surname
       <input type="text" id="surname" name="surname" formControlName="surname" required>
       <pre *ngIf="surname?.errors?.required && surname.touched" class="error">Surname is required</pre>
-      <pre *ngIf="surname?.errors?.hasWhitespaces" class="error">Cannot contain white spaces at the beginning or end of the string</pre>
-      <pre *ngIf="!name?.errors?.required && surname?.errors?.hasSpecialChars && surname.touched" class="error">Cannot contain special characters</pre>
+      <pre *ngIf="surname?.errors?.hasWhitespaces" class="error">Cannot contain white spaces at the beginning or end of the string</pre><br />
+      <pre *ngIf="!surname?.errors?.required && surname?.errors?.hasSpecialChars && surname.value !== ''" class="error">Cannot contain special characters</pre>
     </label>
 
     Type

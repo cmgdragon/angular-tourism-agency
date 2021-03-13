@@ -46,6 +46,8 @@
         <option value="it">IT</option>
         <option value="pt">PT</option>
       </select>
+      <br />
+      <pre *ngIf="nationality?.errors?.required" class="error">Pick a nationality</pre>
 
       <label for="nif">
         NIF
@@ -59,6 +61,7 @@
       <label *ngIf="userType === 'company'" for="company_name">
         Company name
         <input type="text" id="company_name" name="company_name" formControlName="company_name" required>
+        <pre *ngIf="company_name?.errors?.required && company_name.touched" class="error">Company name is required</pre>
         <pre *ngIf="company_name?.errors?.hasWhitespaces"
           class="error">Cannot contain white spaces at the beginning of the word</pre>
         <pre *ngIf="company_name?.errors?.minlength" class="error">Must be longer than 3 characters</pre>
@@ -74,6 +77,7 @@
       <label *ngIf="userType === 'company'" for="cif">
         CIF
         <input type="text" id="cif" name="cif" formControlName="cif" reqired>
+        <pre *ngIf="cif?.errors?.required && cif.touched" class="error">Company name is required</pre>
       </label>
 
     </fieldset>

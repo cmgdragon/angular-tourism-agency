@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { passwordMatch, selectOneOption, hasWhitespaces, hasSpecialChars } from '../../custom-validators';
+import { passwordMatch, selectOneOption, hasWhitespaces, hasSpecialChars } from '../../validators/custom-validators';
 import { User } from '../../models/User';
 import { UserService } from '../../services/user.service';
 
@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
     if (this.userService.getSession()) {
       location.href = '/';
     }
+    this.register.markAllAsTouched();
   }
 
   public register: FormGroup = this.formBuilder.group({
