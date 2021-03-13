@@ -1,0 +1,19 @@
+.list-container > div {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.514);
+  align-items: center;
+}
+
+.list-container {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+
+@media (max-width: 900px) {
+  .list-container {
+    width: 100%;
+  }
+}

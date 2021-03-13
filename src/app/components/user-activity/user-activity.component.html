@@ -1,0 +1,67 @@
+<div class="form-container" *ngIf="activity">
+
+  <form [formGroup]="activityGroup" (ngSubmit)="updateActivity()">
+
+    <fieldset>
+
+      <label for="name">
+        Name
+        <input type="text" id="name" name="name" formControlName="name" required>
+        <pre *ngIf="name?.errors?.required && name.touched" class="error">Name is required</pre>
+      </label>
+
+      Category
+      <select id="category" class="form-control" formControlName="category" name="category" (change)="handleChange()" required>
+        <option value="cultura">Cultura y pratrimonio</option>
+        <option value="enoturismo">Enoturismo</option>
+        <option value="playas">Playas</option>
+        <pre *ngIf="category?.errors?.required && category.touched" class="error">Category is required</pre>
+      </select>
+
+      <br /> <br />
+
+      Subcategory
+      <select id="subcategory" class="form-control" formControlName="subcategory" name="subcategory">
+          <option *ngFor="let subcategory of selected_subcategory" [value]="subcategory.value"
+          [selected]="subcategory.value === activity.subcategory">{{subcategory.label}}</option>
+      </select>
+      <pre *ngIf="subcategory?.errors?.required && subcategory.touched" class="error">Subcategory is required</pre>
+
+      <br /> <br />
+
+      <div>Description</div>
+      <textarea rows="5" id="description" name="description" formControlName="description"></textarea>
+
+      <br /> <br />
+
+      Language
+      <select id="language" class="form-control" formControlName="language" name="language" required>
+        <option value="en">Inglés</option>
+        <option value="ca">Catalán</option>
+        <option value="es">Español</option>
+        <option value="fr">Francés</option>
+        <option value="de">Alemán</option>
+        <pre *ngIf="language?.errors?.required && language.touched" class="error">Language is required</pre>
+      </select>
+
+      <label for="date">
+        Date
+        <input type="text" id="date" name="date" formControlName="date" placeholder="DD/MM/YYYY">
+        <pre *ngIf="date?.errors?.isDate" class="error">Invalid date format (DD/MM/YYYY)</pre>
+        <pre *ngIf="date?.errors?.invalidDay" class="error">Invalid day number</pre>
+        <pre *ngIf="date?.errors?.invalidMonth" class="error">Invalid month number</pre>
+      </label>
+
+      <label for="price">
+        Price
+        <input type="text" id="price" name="price" formControlName="price" required>
+        <pre *ngIf="price?.errors?.required && price.touched" class="error">Price is required</pre>
+        <pre *ngIf="price?.errors?.pattern" class="error">Must be a valid price</pre>
+      </label>
+
+    </fieldset>
+
+    <button type="submit" [disabled]="!activityGroup.valid">Send</button>
+  </form>
+
+</div>

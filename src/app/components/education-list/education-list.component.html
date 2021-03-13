@@ -1,0 +1,15 @@
+<div class="list-container">
+<div *ngFor="let education of educationList; let i = index">
+  {{education.name}} – {{education.university}} ({{education.type}}-{{education.level}}) / {{education.finish_date}}
+  <div class="edit" (click)="selectEducation(education, i, 'edit')">Edit</div>
+  <div class="delete" (click)="selectEducation(education, i, 'delete')">Delete</div>
+</div>
+</div>
+
+<button *ngIf="userType ==='tourist'" (click)="addEducation()">Add education</button>
+
+<app-user-education
+[education]="selectedEducation"
+[educationIndex]="selectedEducationIndex"
+[action]="action"
+(modifiedEducation)="changeEducation($event)"></app-user-education>

@@ -1,0 +1,21 @@
+<div class="list-container">
+    <div *ngFor="let activity of activityList; let i = index">
+      <span>{{activity.name}}</span>
+      <div class="show" (click)="selectActivity(activity, i, 'show')">Show</div>
+      <div class="edit" *ngIf="routeType !== 'home' && userType === 'company'" (click)="selectActivity(activity, i, 'edit')">Edit</div>
+      <div class="delete" *ngIf="routeType !== 'home' &&  userType === 'company'" (click)="selectActivity(activity, i, 'delete')">Delete</div>
+    </div>
+</div>
+<button *ngIf="routeType !== 'home' && userType === 'company'" (click)="addActivity()">Add activity</button>
+
+<app-activity-detail
+*ngIf="action === 'show'"
+[activity]="selectedActivity"
+[hasSignedUp]="hasSignedUp"></app-activity-detail>
+
+<app-user-activity
+*ngIf="action !== 'show'"
+[activity]="selectedActivity"
+[activityIndex]="selectedActivityIndex"
+[action]="action"
+(modifiedActivity)="changeActivity($event)"></app-user-activity>

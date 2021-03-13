@@ -1,0 +1,57 @@
+<div class="form-container">
+<form [formGroup]="register" (ngSubmit)="registerUser()">
+
+  <fieldset>
+
+    <div *ngIf="userExists" class="error">This email already exists!</div>
+
+    <label for="name">
+      Name
+      <input type="text" id="name" name="name" formControlName="name" required>
+      <pre *ngIf="name?.errors?.required && name.touched" class="error">Name is required</pre>
+      <pre *ngIf="name?.errors?.hasWhitespaces" class="error">Cannot contain white spaces at the beginning or end of the string</pre>
+      <pre *ngIf="!name?.errors?.required && name?.errors?.hasSpecialChars && name.touched" class="error">Cannot contain special characters</pre>
+    </label>
+
+    <label for="surname"d>
+      Surname
+      <input type="text" id="surname" name="surname" formControlName="surname" required>
+      <pre *ngIf="surname?.errors?.required && surname.touched" class="error">Surname is required</pre>
+      <pre *ngIf="surname?.errors?.hasWhitespaces" class="error">Cannot contain white spaces at the beginning or end of the string</pre>
+      <pre *ngIf="!name?.errors?.required && surname?.errors?.hasSpecialChars && surname.touched" class="error">Cannot contain special characters</pre>
+    </label>
+
+    Type
+    <select id="user-type" class="form-control" formControlName="type" name="user-type">
+      <option value="tourist">tourist</option>
+      <option value="company">company</option>
+    </select>
+
+    <br /><pre *ngIf="type?.errors?.selectOneOption && type.touched" class="error">Type is required</pre>
+
+    <label for="email">
+      Email
+      <input type="text" id="email" name="email" formControlName="email" required>
+      <pre *ngIf="email?.errors?.required && email.touched" class="error">Email is required</pre>
+      <pre *ngIf="email?.errors?.pattern" class="error">Invalid email format</pre>
+    </label>
+
+    <label for="password">
+      Password
+      <input type="password" id="password" name="password" formControlName="password" required>
+      <pre *ngIf="password?.errors?.required && password.touched" class="error">Password is required</pre>
+      <pre *ngIf="password?.errors?.minlength" class="error">Must be longer than 7 characters</pre>
+    </label>
+
+    <label for="password2">
+      Repeat password
+      <input type="password" id="password2" name="password2" formControlName="password2" required>
+      <pre *ngIf="password2?.errors?.required && password2.touched" class="error">Password is required</pre>
+      <pre *ngIf="password2?.errors?.passwordMatch && password.value.length !== 0" class="error">Passwords must match!</pre>
+    </label>
+
+  </fieldset>
+
+  <button type="submit" [disabled]="!register.valid">Register</button>
+</form>
+</div>

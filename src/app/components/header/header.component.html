@@ -1,0 +1,16 @@
+<nav>
+
+  <img src="../../../assets/angular-logo.png" />
+
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+  <a *ngIf="!isLoggedIn()" routerLink="/login" routerLinkActive="active">Login</a>
+  <a *ngIf="!isLoggedIn()" routerLink="/register" routerLinkActive="active">Register</a>
+
+  <a *ngIf="isLoggedIn() && userType === 'tourist'" href="#">Favorites</a>
+  <a *ngIf="isLoggedIn() && userType === 'tourist'" routerLink="/my-activity" routerLinkActive="active">My Activity</a>
+  <a *ngIf="isLoggedIn() && userType === 'company'" routerLink="/admin" routerLinkActive="active">Admin</a>
+
+  <a *ngIf="isLoggedIn()" routerLink="/profile" routerLinkActive="active">Profile</a>
+  <a *ngIf="isLoggedIn()" routerLink="/" (click)="logOut()">Logout</a>
+
+</nav>

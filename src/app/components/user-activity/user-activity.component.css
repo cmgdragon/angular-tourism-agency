@@ -1,0 +1,15 @@
+.form-container {
+  float: right;
+  position: absolute;
+  right: 20%;
+  top: 4rem;
+  padding: 1.5rem;
+}
+
+@media (max-width: 950px) {
+  .form-container {
+    position: inherit;
+    float: initial;
+    margin-top: 1rem;
+  }
+}

@@ -1,0 +1,50 @@
+<div class="form-container" *ngIf="education">
+
+  <form [formGroup]="educationGroup" (ngSubmit)="updateEducation()">
+
+    <fieldset>
+
+      <label for="name">
+        Name
+        <input type="text" id="name" name="name" formControlName="name" required>
+        <pre *ngIf="name?.errors?.required && name.touched" class="error">Name is required</pre>
+        <pre *ngIf="name?.errors?.minlength" class="error">Must be longer than 3 characters</pre>
+        <pre *ngIf="name?.errors?.minlength" class="error">Must be shorter than 55 characters</pre>
+      </label>
+
+      Type
+      <select id="type" class="form-control" formControlName="type" name="type" (change)="handleChange()">
+        <option value="titulo">Título universitario</option>
+        <option value="ciclo">Ciclo formativo</option>
+      </select>
+
+      <br /><br />
+
+      Level
+      <select id="level" class="form-control" formControlName="level" name="level">
+          <option *ngFor="let level of selected_level" [value]="level.value"
+          [selected]="level.value === education.level">{{level.label}}</option>
+      </select>
+
+      <label for="university">
+        University
+        <input type="text" id="university" name="university" formControlName="university" required>
+        <pre *ngIf="university?.errors?.required && university.touched" class="error">University is required</pre>
+        <pre *ngIf="university?.errors?.minlength" class="error">Must be longer than 3 characters</pre>
+        <pre *ngIf="university?.errors?.minlength" class="error">Must be shorter than 55 characters</pre>
+      </label>
+
+      <label for="finish_date">
+        Finish date
+        <input type="text" id="finish_date" name="finish_date" formControlName="finish_date">
+        <pre *ngIf="finish_date?.errors?.isDate" class="error">Invalid date format (DD/MM/YYYY)</pre>
+        <pre *ngIf="finish_date?.errors?.invalidDay" class="error">Invalid day number</pre>
+        <pre *ngIf="finish_date?.errors?.invalidMonth" class="error">Invalid month number</pre>
+      </label>
+
+    </fieldset>
+
+    <button type="submit" [disabled]="!educationGroup.valid">Update education</button>
+  </form>
+
+</div>

@@ -1,0 +1,25 @@
+.activity-detail {
+  float: right;
+  position: absolute;
+  right: 20%;
+  top: 6rem;
+  padding: 1.5rem;
+  box-shadow: 1px 1px 10px 0px #00000080;
+}
+
+@media (max-width: 900px) {
+  .activity-detail {
+    position: inherit;
+    float: initial;
+    margin-top: 1rem;
+  }
+}
+
+.field {
+  margin: 1rem 0;
+}
+
+span {
+  font-weight: bold;
+  margin-right: .5rem;
+}

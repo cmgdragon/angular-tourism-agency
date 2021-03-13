@@ -1,1 +1,102 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a, a:visited, a:focus {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  padding: 1.1rem;
+}
+
+fieldset {
+  padding: 1.5rem;
+  border: none;
+  box-shadow: 1px 1px 10px 0px #00000080;
+}
+
+.form-container {
+  display: flex;
+  place-content: center;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5rem;
+  box-shadow: 1px 1px 10px 0px #00000080;
+}
+
+.list-container > div:first-of-type {
+  border-top: none;
+}
+
+.list-container > div:last-of-type {
+  border-bottom: none;
+}
+
+.list-container > div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.514);
+}
+
+button {
+  margin: .8rem .5rem;
+  padding: .1rem .4rem;
+  font-size: 1.15rem;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid rgb(78, 78, 78);
+}
+
+.show:hover, .delete:hover, .edit:hover {
+  background-color: khaki;
+  cursor: pointer;
+}
+
+.show:hover { background-color: rgba(174, 215, 252, 0.699); }
+.delete:hover { background-color: rgba(252, 174, 174, 0.699); }
+.edit:hover { background-color: rgba(240, 252, 174, 0.699); }
+
+.show, .delete, .edit {
+  padding: .8rem .2rem;
+  font-weight: bold;
+}
+
+input:not([type=checkbox]), label {
+  display: block;
+}
+
+label {
+  margin: 1rem 0;
+}
+
+.error {
+  display: unset;
+  color: red;
+}
+
+footer {
+  border-top: 1px solid black;
+  margin-top: 30rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0px -18px 20px 0px #00000024;
+}
+
+@media (max-width: 487px) {
+  footer {
+    margin-top: 0rem;
+  }
+}

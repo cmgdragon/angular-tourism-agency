@@ -1,0 +1,16 @@
+<div class="activity-detail" *ngIf="activity">
+
+  <div class="field"><span>Name:</span> {{activity.name}}</div>
+  <div class="field"><span>Category:</span>{{activity.category}}</div>
+  <div class="field"><span>Subcategory:</span>{{activity.subcategory}}</div>
+  <span>Description:</span>
+  <div class="field">{{activity.description}}</div>
+  <div class="field"><span>Language:</span>{{activity.language}}</div>
+  <div class="field"><span>Date:</span>{{activity.date}}</div>
+  <div class="field"><span>Price:</span>{{activity.price}} €</div>
+  <div class="field"><span>Registered users:</span>{{activity.registered.length}}</div>
+
+  <button class="button" *ngIf="userType === 'tourist' && hasSignedUp" (click)="signUp(activity.id)">Abandon</button>
+  <button class="button" *ngIf="userType === 'tourist' && !hasSignedUp" (click)="signUp(activity.id)">Sign up</button>
+  <button class="button" *ngIf="userType === 'tourist'">Add to Favorites</button>
+</div>

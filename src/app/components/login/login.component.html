@@ -1,0 +1,27 @@
+<div class="form-container">
+<form [formGroup]="login" (ngSubmit)="loginUser()">
+
+  <fieldset>
+
+    <div *ngIf="!userExists" class="error">This user does not exists</div>
+    <div *ngIf="!isPwdCorrrect" class="error">Incorrect password</div>
+
+    <label for="email">
+      Email
+      <input type="text" id="email" name="email" formControlName="email" required>
+      <pre *ngIf="email?.errors?.required && email.touched" class="error">Email is required</pre>
+      <pre *ngIf="email?.errors?.pattern" class="error">Invalid email format</pre>
+    </label>
+
+
+    <label for="password">
+      Password
+      <input type="password" id="password" name="password" formControlName="password" required>
+      <pre *ngIf="password?.errors?.required && password.touched" class="error">Password is required</pre>
+    </label>
+
+  </fieldset>
+
+  <button type="submit" [disabled]="!login.valid">Acceder</button>
+</form>
+</div>
