@@ -1,4 +1,28 @@
 {
-  "users": [],
+  "users": [
+    {
+      "activities": [],
+      "education": [
+        {
+          "name": "cmgdragon",
+          "type": "titulo",
+          "level": "grado",
+          "university": "eeeeeeeeeeeeeeee",
+          "finish_date": "12/12/1996"
+        }
+      ],
+      "name": "cmgdragon",
+      "email": "carlos_ole1996@hotmail.com",
+      "surname": "aaaaaaaaaaaaaa",
+      "type": "tourist",
+      "password": "12345678",
+      "id": 1,
+      "profile": {
+        "birthdate": "25/12/1996",
+        "nationality": "es",
+        "nif": "00000000T"
+      }
+    }
+  ],
   "activities": []
 }

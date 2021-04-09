@@ -2,20 +2,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { ActivitiesModule } from './activities/activities.module';
+import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
 import { CookieService } from 'ngx-cookie-service';
-import { RegisterComponent } from './components/register/register.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { UserEducationComponent } from './components/user-education/user-education.component';
-import { EducationListComponent } from './components/education-list/education-list.component';
-import { ActivityListComponent } from './components/activity-list/activity-list.component';
-import { UserActivityComponent } from './components/user-activity/user-activity.component';
+import { ProfileComponent } from './users/profile/profile.component';
+import { ActivityListComponent } from './activities/activity-list/activity-list.component';
+import appReducers from './app.reducers';
+import { EffectsArray } from './app.effects';
+import { UsersModule } from './users/users.module';
+import { LoginComponent } from './users/login/login.component';
+import { RegisterComponent } from './users/register/register.component';
 
 const appRoutes: Routes = [
   { path: '', component: ActivityListComponent, data: { type: 'home' } },
@@ -29,24 +34,24 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     HeaderComponent,
     FooterComponent,
-    RegisterComponent,
-    ActivityDetailComponent,
-    ProfileComponent,
-    UserEducationComponent,
-    EducationListComponent,
-    ActivityListComponent,
-    UserActivityComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
+    ActivitiesModule,
+    UsersModule,
     ReactiveFormsModule,
     RouterModule.forRoot(
       appRoutes
-    )
+    ),
+    StoreModule.forRoot( appReducers ),
+    EffectsModule.forRoot( EffectsArray ),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    })
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
