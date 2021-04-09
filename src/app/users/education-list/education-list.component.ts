@@ -13,7 +13,7 @@ import { UserService } from 'src/app/users/services/user.service';
 })
 export class EducationListComponent implements OnInit {
 
-  educationList: Array<UserEducation>;
+  educationList: Array<UserEducation> = [];
   userId: number = undefined;
   action: string;
   user: User;
@@ -26,8 +26,12 @@ export class EducationListComponent implements OnInit {
     this.userId = this.userService.getUserId(); //from cookies
     this.userType = this.userService.getUserType(); //from cookies
     this.store.select("usersReducers").subscribe(({user}) => { //from state
-      this.user = user;
-      this.educationList = user.education
+      setTimeout(() => {
+        this.user = user;
+        this.educationList = this.user.education;
+      }, 700);
+
+      //
     })
    /* this.userService.getUser(this.userService.getUserId()).subscribe((user: User) =>
       {

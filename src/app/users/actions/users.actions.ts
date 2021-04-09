@@ -18,6 +18,11 @@ export const updateUser = createAction(
   props<{ user: User }>()
 );
 
+/*export const deleteEducation = createAction(
+  '[USER] Update education',
+  props<{ index: number }>()
+);*/
+
 export const registerUserSuccess = createAction('[USER] Register user success');
 export const updateUserSuccess = createAction(
   '[USER] Update user success',

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../models/User';
 import { isDate } from '../../validators/custom-validators';
@@ -19,7 +19,6 @@ export class UserEducationComponent implements OnChanges, OnInit {
   @Input() education: UserEducation;
   @Input() educationIndex: number;
   @Input() action: string;
-  @Output() modifiedEducation = new EventEmitter<User>();
 
   university_levels: Array<{ value: string, label: string }>;
   ciclo_levels: Array<{ value: string, label: string }>;
@@ -106,17 +105,20 @@ export class UserEducationComponent implements OnChanges, OnInit {
 
   deleteEducation(): void {
     if (confirm('Delete this record?')) {
-      this.user.education = this.user.education.filter((education, educationIndex) =>
+      this.user ={...this.user, education: [...this.user.education.filter((education, educationIndex) =>
       educationIndex !== this.educationIndex
-    )
-      this.store.dispatch(updateUser({user: this.user}));
+    )]}
+    console.log(this.user)
+    this.store.dispatch(updateUser({user: this.user}));
       //this.updateInMemoryUser(this.user);
     }
+
+    this.education = undefined;
   }
 
   updateInMemoryUser(user: User): void {
     this.userService.updateUser(user);
-    this.modifiedEducation.emit(user);
+    //this.modifiedEducation.emit(user);
     this.education = undefined;
   }
 
@@ -152,6 +154,7 @@ export class UserEducationComponent implements OnChanges, OnInit {
       }
 
       this.store.dispatch(updateUser({user: this.user}));
+      this.education = undefined;
      // this.updateInMemoryUser(this.user);
       alert('Profile saved');
     }
