@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Activity } from '../models/Activity';
-import { addNewAvtivity, getActivities, getAllActivitiesError, getAllActivitiesSuccess, getUserActivitiesSuccess, removeActivity, updateAvtivity } from '../actions';
+import { addNewActivity, addNewActivitySuccess, getActivities, activitiesError, getActivitiesSuccess, removeActivity, updateActivity, removeActivitySuccess, updateActivitySuccess } from '../actions';
 
 export interface ActivityState {
   activities: Activity[],
@@ -19,35 +19,34 @@ const activitiesInitalState: ActivityState = {
 const _activityReducer = createReducer(
   activitiesInitalState,
   on(getActivities, state => ({...state, loading: true, loaded: false})),
-  on(getAllActivitiesSuccess, (state, { activities }) => ({
+  on(addNewActivitySuccess, state => ({...state, loading: false, loaded: true})),
+  on(removeActivitySuccess, state => ({...state, loading: false, loaded: true})),
+  on(updateActivitySuccess, state => ({...state, loading: false, loaded: true})),
+  on(getActivitiesSuccess, (state, { activities }) => ({
     ...state,
-    ...activities,
+    activities,
     loaded: true,
     loading: false
   })),
-  on(getUserActivitiesSuccess, (state, { activities }) => ({
-    ...state,
-    ...activities,
-    loaded: true,
-    loading: false
-  })),
-  on(getAllActivitiesError, (state, { payload }) => ({
+  on(activitiesError, (state, { payload }) => ({
     ...state,
     loaded: false,
     loading: false,
     error: payload
   })),
-  on(addNewAvtivity, (state, { activity }) => ({
+  on(addNewActivity, (state, { activity }) => ({
     ...state,
     activities: [...state.activities, activity]
   })),
   on(removeActivity, (state, { id }) => ({
     ...state,
-    activities: state.activities.filter(activity => activity.id !== id)
+    activities: [...state.activities.filter(activity => activity.id !== id)]
   })),
-  on(updateAvtivity, (state, { activity }) => ({
+  on(updateActivity, (state, { activity }) => ({
     ...state,
-    activities: [...state.activities, activity]
+    activities: [...state.activities.map(currentActivity =>
+        activity === currentActivity ? activity : currentActivity
+    )]
   }))
 );
 

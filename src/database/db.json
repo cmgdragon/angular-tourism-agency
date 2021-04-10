@@ -24,5 +24,28 @@
       }
     }
   ],
-  "activities": []
+  "activities": [
+    {
+      "registered": [],
+      "name": "cmgdragon2",
+      "category": "enoturismo",
+      "subcategory": "museovino",
+      "language": "ca",
+      "date": "12/12/1996",
+      "price": "32",
+      "user": 1,
+      "id": 1
+    },
+    {
+      "registered": [],
+      "name": "asdsadada2222",
+      "category": "enoturismo",
+      "subcategory": "museovino",
+      "language": "ca",
+      "date": "12/12/1996",
+      "price": "32",
+      "user": 1,
+      "id": 2
+    }
+  ]
 }

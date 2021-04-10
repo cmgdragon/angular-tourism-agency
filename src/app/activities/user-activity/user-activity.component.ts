@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../models/User';
+import { User } from '../../users/models/User';
 import { isDate } from '../../validators/custom-validators';
 import { Activity } from 'src/app/activities/models/Activity';
 import { Store } from '@ngrx/store';
@@ -8,6 +8,8 @@ import { AppState } from 'src/app/app.reducers';
 
 import { UserService } from 'src/app/users/services/user.service';
 import { ActivityService } from 'src/app/activities/services/activity.service';
+import { addNewActivity, removeActivity, updateActivity } from '../actions';
+import { updateUser } from 'src/app/users/actions';
 
 @Component({
   selector: 'app-user-activity',
@@ -25,7 +27,7 @@ export class UserActivityComponent implements OnInit {
   enoturismo_subcategory: Array<{ value: string, label: string }>;
   playa_subcategory: Array<{ value: string, label: string }>;
   selected_subcategory: any;
-  activityList: Array<Activity>;
+  //activityList: Array<Activity>;
   userId: number;
   user: User;
 
@@ -62,11 +64,13 @@ export class UserActivityComponent implements OnInit {
 
   ngOnInit(): void {
 
-
-
     if (this.userId) {
-      this.store.select("usersReducers").subscribe(({user}) => this.user = user);
-      this.store.select("activityReducers").subscribe(({activities}) => this.activityList = activities);
+      this.store.select("usersReducers").subscribe(({user}) => {
+        setTimeout(() => {
+          this.user = user
+        }, 500);
+      });
+
       //this.userService.getUser(this.userId).subscribe((user: User) => { this.user = user });
       //this.activityService.getUserActivities(this.userId).subscribe((activities: Array<Activity>) => { this.activityList = activities });
     }
@@ -75,10 +79,10 @@ export class UserActivityComponent implements OnInit {
 
   ngOnChanges(): void {
 
-    if (this.action === 'delete') {
+    /*if (this.action === 'delete') {
       this.deleteActivity();
       return;
-    }
+    }*/
 
     if (this.activity) {
       this.setName = this.activity.name;
@@ -138,29 +142,7 @@ export class UserActivityComponent implements OnInit {
   }
 
   deleteActivity(): void {
-    if (confirm('Delete this activity?')) {
 
-      const activityId = this.activity.id;
-      this.activityService.deleteActivity(activityId);
-      this.updateInMemoryActivity(this.activity);
-
-      if (!this.activity?.registered || this.activity?.registered.length === 0) return;
-
-      for (const userId of this.activity.registered) {
-        console.log(this.activity)
-        this.userService.getUser(userId).subscribe((user: User) => {
-          user.activities.splice(user.activities.findIndex(a => a === activityId), 1);
-          this.userService.updateUser(user);
-        })
-      }
-
-      this.activity = undefined;
-      this.activityIndex = undefined;
-
-    } else {
-      this.activity = undefined;
-      this.activityIndex = undefined;
-     }
   }
 
   updateInMemoryActivity(activity: Activity): void {
@@ -172,24 +154,30 @@ export class UserActivityComponent implements OnInit {
 
     if (this.activityGroup.valid) {
 
-      this.activity.name = this.name.value;
-      this.activity.category = this.category.value;
-      this.activity.subcategory = this.subcategory.value;
-      this.activity.description = this.description.value;
-      this.activity.language = this.language.value;
-      this.activity.date = this.date.value;
-      this.activity.price = this.price.value;
-      this.activity.user = this.user.id;
+      this.activity = {
+        ...this.activity,
+        name: this.name.value,
+        category: this.category.value,
+        subcategory: this.subcategory.value,
+        description: this.description.value,
+        language: this.language.value,
+        date: this.date.value,
+        price: this.price.value,
+        user: this.user.id
+      }
+
     }
 
     if (this.activity.id) {
-      this.activityService.updateActivity(this.activity);
-      this.updateInMemoryActivity(this.activity);
+      this.store.dispatch(updateActivity({ activity: this.activity }))
+      //this.activityService.updateActivity(this.activity);
+      //this.updateInMemoryActivity(this.activity);
     } else {
       this.activity.registered = [];
-      this.activityService.addActivity(this.activity).subscribe((newActivity: Activity) => {
+      this.store.dispatch(addNewActivity({ activity: this.activity }))
+      /*this.activityService.addActivity(this.activity).subscribe((newActivity: Activity) => {
         this.updateInMemoryActivity(newActivity);
-      })
+      })*/
     }
 
     alert('Activity saved');

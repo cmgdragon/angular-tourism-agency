@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { EducationListComponent } from './education-list/education-list.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { UserActivityComponent } from './user-activity/user-activity.component';
 import { UserEducationComponent } from './user-education/user-education.component';
 import { ProfileComponent } from './profile/profile.component';
 
@@ -16,7 +15,6 @@ import { ProfileComponent } from './profile/profile.component';
     EducationListComponent,
     LoginComponent,
     RegisterComponent,
-    UserActivityComponent,
     UserEducationComponent,
     ProfileComponent
   ],
@@ -29,7 +27,6 @@ import { ProfileComponent } from './profile/profile.component';
     EducationListComponent,
     LoginComponent,
     RegisterComponent,
-    UserActivityComponent,
     UserEducationComponent,
     ProfileComponent
   ]

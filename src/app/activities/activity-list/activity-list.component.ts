@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Activity } from '../models/Activity';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
 
 import { ActivityService } from '../services/activity.service';
 import { UserService } from 'src/app/users/services/user.service';
 
 import { User } from '../../users/models/User';
 import { ActivatedRoute } from '@angular/router';
+import { getActivities, getUserActivities, removeActivity } from '../actions';
+import { updateUser } from 'src/app/users/actions';
 
 @Component({
   selector: 'app-activity-list',
@@ -23,13 +27,17 @@ export class ActivityListComponent implements OnInit {
   action: string;
   selectedActivityIndex: number;
 
-  constructor(private activityService: ActivityService, private userService: UserService, private route: ActivatedRoute) {
+  constructor(private activityService: ActivityService, private userService: UserService, private route: ActivatedRoute, private store: Store<AppState>) {
     this.userId = this.userService.getUserId();
     this.userType = this.userService.getUserType();
   }
 
   ngOnInit(): void {
-
+      this.store.select("activityReducers").subscribe(({activities}) => {
+        setTimeout(() => {
+          this.activityList = activities
+        }, 500);
+      });
     this.route.data.subscribe(({type}) => {
 
       this.routeType = type;
@@ -37,12 +45,15 @@ export class ActivityListComponent implements OnInit {
 
       switch (type) {
         case 'home':
-          this.activityService.getAllActivities().subscribe(data => {
-            this.activityList = data; });
+          /*this.activityService.getAllActivities().subscribe(data => {
+            this.activityList = data; });*/
+            this.store.dispatch(getActivities());
           break;
         case 'company':
-          this.activityService.getUserActivities(this.userService.getUserId()).subscribe(data => {
-            this.activityList = data; });
+          /*this.activityService.getUserActivities(this.userService.getUserId()).subscribe(data => {
+            this.activityList = data; });*/
+
+            this.store.dispatch(getUserActivities({ id: this.userId }));
         case 'tourist':
           const activities: Array<Activity> = [];
           this.userService.getUser(this.userService.getUserId()).subscribe((user: User) => {
@@ -75,33 +86,50 @@ export class ActivityListComponent implements OnInit {
         });
         this.selectedActivityIndex = activityIndex;
         break;
-      default:
+      case 'edit':
         this.selectedActivity = undefined;
         this.selectedActivity = activity;
         this.selectedActivityIndex = activityIndex;
+      break;
+
+      case 'delete':
+        this.selectedActivity = undefined;
+        console.log(activity.id + " WTFT?=¿??¿")
+        if (confirm('Delete this activity?')) {
+
+          this.store.dispatch(removeActivity({ id: activity.id }));
+
+          if (!activity?.registered || activity?.registered.length === 0) return;
+
+          for (const userId of activity.registered) {
+            console.log(activity)
+            this.userService.getUser(userId).subscribe((user: User) => {
+
+              const newUser: User = ({
+                ...user,
+                activities: [...user.activities.splice(user.activities.findIndex(a => a === activity.id), 1)]
+              })
+              this.store.dispatch(updateUser({ user: newUser }))
+              //this.userService.updateUser(user);
+            })
+          }
+
+          this.selectedActivity = undefined;
+          this.selectedActivityIndex = undefined;
+
+        } else {
+          this.selectedActivity = undefined;
+          this.selectedActivityIndex = undefined;
+         }
     }
 
   }
 
   addActivity(): void {
+    console.log("joder");
     this.action = 'add';
     this.selectedActivity = new Activity();
     this.selectedActivityIndex = undefined;
-  }
-
-  changeActivity(activity: Activity) {
-    switch(this.action) {
-      case 'delete':
-        this.activityList.splice(this.selectedActivityIndex, 1);
-        break;
-      case 'edit':
-        this.selectedActivity = undefined;
-        this.activityList[this.selectedActivityIndex] = activity;
-        break;
-      case 'add':
-        this.selectedActivity = undefined;
-        this.activityList.push(activity);
-    }
   }
 
 }

@@ -14,8 +14,7 @@
 [hasSignedUp]="hasSignedUp"></app-activity-detail>
 
 <app-user-activity
-*ngIf="action !== 'show'"
+
 [activity]="selectedActivity"
 [activityIndex]="selectedActivityIndex"
-[action]="action"
-(modifiedActivity)="changeActivity($event)"></app-user-activity>
+[action]="action"></app-user-activity>

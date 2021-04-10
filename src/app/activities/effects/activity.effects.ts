@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { addNewAvtivity, getActivities, getAllActivitiesError, getAllActivitiesSuccess, getUserActivities, getUserActivitiesSuccess, removeActivity, updateAvtivity } from '../actions';
+import { addNewActivity, addNewActivitySuccess, getActivities, activitiesError, getActivitiesSuccess, getUserActivities, removeActivity, updateActivity, updateActivitySuccess, removeActivitySuccess } from '../actions';
 import { ActivityService } from '../services/activity.service';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -15,8 +15,8 @@ export class ActivitiesEffects {
       ofType(getActivities),
       mergeMap(() =>
         this.activityService.getAllActivities().pipe(
-          map(activities => getAllActivitiesSuccess({ activities })),
-          catchError(payload => of(getAllActivitiesError({ payload })))
+          map(activities => getActivitiesSuccess({ activities })),
+          catchError(payload => of(activitiesError({ payload })))
         )
       )
     )
@@ -27,8 +27,8 @@ export class ActivitiesEffects {
       ofType(getUserActivities),
       mergeMap(({id}) =>
         this.activityService.getUserActivities(id).pipe(
-          map(activities => getUserActivitiesSuccess({ activities })),
-          catchError(payload => of(getAllActivitiesError({ payload })))
+          map(activities => getActivitiesSuccess({ activities })),
+          catchError(payload => of(activitiesError({ payload })))
         )
       )
     )
@@ -36,23 +36,31 @@ export class ActivitiesEffects {
 
   addNewActivity$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(addNewAvtivity),
-      mergeMap(({activity}) => this.activityService.addActivity(activity))
+      ofType(addNewActivity),
+      mergeMap(({activity}) =>
+        this.activityService.addActivity(activity)),
+          map(() => addNewActivitySuccess()),
+          catchError(payload => of(activitiesError({ payload }))
+      )
     )
   );
 
-  updateAvtivity$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(updateAvtivity),
-    mergeMap(({activity}) => this.activityService.updateActivity(activity))
-   )
+  updateActivity$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateActivity),
+      mergeMap(({activity}) =>
+        this.activityService.updateActivity(activity)),
+          map(() => updateActivitySuccess())
+    )
   );
 
-  removeAvtivity$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(removeActivity),
-    mergeMap(({id}) => this.activityService.deleteActivity(id))
-   )
+  removeActivity$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(removeActivity),
+      mergeMap(({id}) =>
+        this.activityService.deleteActivity(id)),
+          map(() => removeActivitySuccess())
+    )
   );
 
 }

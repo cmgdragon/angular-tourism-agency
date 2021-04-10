@@ -5,11 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
 import { ActivityListComponent } from './activity-list/activity-list.component';
+import { UserActivityComponent } from './user-activity/user-activity.component';
 
 @NgModule({
   declarations: [
     ActivityDetailComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    UserActivityComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,8 @@ import { ActivityListComponent } from './activity-list/activity-list.component';
   ],
   exports: [
     ActivityDetailComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    UserActivityComponent
   ]
 })
 export class ActivitiesModule { }

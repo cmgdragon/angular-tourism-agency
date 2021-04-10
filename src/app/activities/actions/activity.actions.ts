@@ -1,43 +1,37 @@
 import { createAction, props } from '@ngrx/store';
 import { Activity } from '../models/Activity';
 
-export const createActivity = createAction(
-  '[ACTIVITY] Create activity',
-  props<{activity: Activity}>()
-);
-
 export const getActivities = createAction('[ACTIVITY] Get activities');
 export const getUserActivities = createAction(
   '[ACTIVITY] Get user activities',
   props<{ id: number }>()
 );
 
-export const getAllActivitiesSuccess = createAction(
+export const getActivitiesSuccess = createAction(
   '[ACTIVITY] Get all activities',
   props<{ activities: Activity[] }>()
 );
 
-export const getUserActivitiesSuccess = createAction(
-  '[ACTIVITY] Get all activities',
-  props<{ activities: Activity[] }>()
-);
-
-export const getAllActivitiesError = createAction(
-  '[ACTIVITY] Get all activities error',
+export const activitiesError = createAction(
+  '[ACTIVITY] Activities error',
   props<{ payload: any }>()
 );
 
-export const addNewAvtivity = createAction(
+export const addNewActivity = createAction(
   '[ACTIVITY] Add activity',
   props<{ activity: Activity }>()
 );
+
+export const addNewActivitySuccess = createAction('[ACTIVITY] Add new activity success');
+export const removeActivitySuccess = createAction('[ACTIVITY] Remove activity success');
+export const updateActivitySuccess = createAction('[ACTIVITY] Update activity success');
 
 export const removeActivity = createAction(
   '[ACTIVITY] Remove activity',
   props<{ id: number }>()
 );
 
-export const updateAvtivity = createAction(
+export const updateActivity = createAction(
   '[ACTIVITY] Remove activity',
   props<{ activity: Activity }>()
 );
