@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { getUser, userError, getUserSuccess, removeSession, registerUserSuccess, registerUser, updateUser } from '../actions';
+import { getUser, userError, getUserSuccess, removeSession, registerUserSuccess, registerUser, updateUser, getLoggedUser } from '../actions';
 import { User } from '../models/User';
 
 export interface UserState {
@@ -19,6 +19,7 @@ const userInitalState: UserState = {
 const _userReducer = createReducer(
   userInitalState,
   on(getUser, state => ({...state, loading: true})),
+  on(getLoggedUser, state => ({...state, loading: true})),
   on(registerUser, state => ({...state, loading: true})),
   on(updateUser, (state, { user }) => ({...state, user })),
   on(registerUserSuccess, state => ({

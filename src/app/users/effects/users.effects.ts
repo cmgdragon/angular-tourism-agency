@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UserService } from '../services/user.service';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { registerUser, registerUserSuccess, getUser, userError, getUserSuccess, updateUser, updateUserSuccess } from '../actions';
+import { registerUser, registerUserSuccess, getUser, userError, getUserSuccess, updateUser, updateUserSuccess, getLoggedUser, removeSession } from '../actions';
 
 @Injectable()
 export class UsersEffects {
@@ -13,6 +13,18 @@ export class UsersEffects {
   getUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getUser),
+      mergeMap(({id}) =>
+        this.userService.getUser(id).pipe(
+          map(user => getUserSuccess({ user })),
+          catchError(payload => of(userError({ payload })))
+        )
+      )
+    )
+  );
+
+  getLoggedUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getLoggedUser),
       mergeMap(({id}) =>
         this.userService.getUser(id).pipe(
           map(user => getUserSuccess({ user })),
@@ -40,6 +52,18 @@ export class UsersEffects {
       mergeMap(({user}) =>
         of(this.userService.updateUser(user)).pipe(
           map(() => updateUserSuccess({user})),
+          catchError(payload => of(userError({ payload })))
+        )
+      )
+    )
+  );
+
+  removeSession$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(removeSession),
+      mergeMap(() =>
+        of(this.userService.deleteSession()).pipe(
+          map(() => null),
           catchError(payload => of(userError({ payload })))
         )
       )

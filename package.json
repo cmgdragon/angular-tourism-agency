@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "database": "nodemon --exec \"json-server --watch ./src/database/db.json\"",
+    "database": "nodemon --exec \"json-server --host 127.0.0.1 --watch ./src/database/db.json\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

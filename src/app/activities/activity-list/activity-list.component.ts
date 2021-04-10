@@ -8,8 +8,7 @@ import { UserService } from 'src/app/users/services/user.service';
 
 import { User } from '../../users/models/User';
 import { ActivatedRoute } from '@angular/router';
-import { getActivities, getTouristActivities, getUserActivities, removeActivity } from '../actions';
-import { updateUser } from 'src/app/users/actions';
+import { clearActivitiesState, getActivities, getTouristActivities, getUserActivities, removeActivity } from '../actions';
 
 @Component({
   selector: 'app-activity-list',
@@ -41,22 +40,16 @@ export class ActivityListComponent implements OnInit {
     this.route.data.subscribe(({ type }) => {
 
       this.routeType = type;
-      if (!this.userService.getUserId()) return;
 
       switch (type) {
         case 'home':
-          /*this.activityService.getAllActivities().subscribe(data => {
-            this.activityList = data; });*/
           this.store.dispatch(getActivities());
           break;
         case 'company':
-          /*this.activityService.getUserActivities(this.userService.getUserId()).subscribe(data => {
-            this.activityList = data; });*/
-
           this.store.dispatch(getUserActivities({ id: this.userId }));
           break;
         case 'tourist':
-          console.log("tests")
+          this.store.dispatch(clearActivitiesState());
           this.store.dispatch(getTouristActivities({ id: this.userId }));
       }
 
@@ -71,9 +64,7 @@ export class ActivityListComponent implements OnInit {
     switch (action) {
       case 'show':
         this.selectedActivity = undefined;
-        this.activityService.getActivityById(activity.id).subscribe((activity: Activity) => {
-          this.selectedActivity = activity;
-        });
+        this.selectedActivity = activity;
         this.selectedActivityIndex = activityIndex;
         break;
       case 'edit':
@@ -84,23 +75,23 @@ export class ActivityListComponent implements OnInit {
 
       case 'delete':
         this.selectedActivity = undefined;
-        console.log(activity.id + " WTFT?=¿??¿")
         if (confirm('Delete this activity?')) {
 
-          //this.store.dispatch(removeActivity({ id: activity.id }));
+          this.store.dispatch(removeActivity({ id: activity.id }));
 
           if (!activity?.registered || activity?.registered.length === 0) return;
 
           for (const userId of activity.registered) {
-            console.log(activity)
+
             this.userService.getUser(userId).subscribe((user: User) => {
 
               const newUser: User = ({
                 ...user,
-                activities: [...user.activities.splice(user.activities.findIndex(a => a === activity.id), 1)]
+                activities: [...user.activities.filter(x => x !== activity.id)]
               })
-              this.store.dispatch(updateUser({ user: newUser }))
-              //this.userService.updateUser(user);
+
+              this.userService.updateUser(newUser);
+
             })
           }
 
@@ -116,7 +107,6 @@ export class ActivityListComponent implements OnInit {
   }
 
   addActivity(): void {
-    console.log("joder");
     this.action = 'add';
     this.selectedActivity = new Activity();
     this.selectedActivityIndex = undefined;

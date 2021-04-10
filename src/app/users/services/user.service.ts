@@ -22,7 +22,8 @@ export class UserService {
       })
 
       this.addUser(user).subscribe(user => {
-        this.startSession(user)
+        this.startSession(user);
+        window.location.href = "/";
         resolve(user);
       });
 
@@ -45,6 +46,7 @@ export class UserService {
             if (pwd !== user.password) return reject('invalid_pwd');
 
             this.startSession(user);
+            window.location.href = "/";
             resolve(user);
           } else {
             reject('not_email_found');

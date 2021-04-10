@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { addNewActivity, addNewActivitySuccess, getActivities, activitiesError, getActivitiesSuccess, getUserActivities, removeActivity, updateActivity, updateActivitySuccess, removeActivitySuccess, getTouristActivities } from '../actions';
+import { addNewActivity, addNewActivitySuccess, getActivities, activitiesError, getActivitiesSuccess, getUserActivities, removeActivity, updateActivity, updateActivitySuccess, removeActivitySuccess, getTouristActivities, getTouristActivitiesSuccess } from '../actions';
 import { ActivityService } from '../services/activity.service';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { mergeMap, map, catchError, toArray, tap, combineLatest, reduce } from 'rxjs/operators';
+import { of, from, merge } from 'rxjs';
 import { UserService } from 'src/app/users/services/user.service';
 import { Activity } from '../models/Activity';
 
@@ -51,22 +51,23 @@ export class ActivitiesEffects {
     this.actions$.pipe(
       ofType(getTouristActivities),
       mergeMap(({ id }) =>
+
         this.userService.getUser(id).pipe(
-          mergeMap(({ activities }) => {
-            const touristActivities: Activity[] = [];
-            for (const id of activities) {
-              this.activityService.getActivityById(id).subscribe((activity: Activity) => {
-                touristActivities.push(activity);
-              })
-            }
-            return of(touristActivities).pipe(
-              mergeMap(touristActivities => map(() => getActivitiesSuccess({ activities: touristActivities }))),
+          mergeMap(({ activities }) => from(activities).pipe(
+
+            mergeMap(id => this.activityService.getActivityById(id).pipe(
+
+              mergeMap(touristActivity =>
+                of(getTouristActivitiesSuccess( {activity: touristActivity} ) ),
+
+              ),
               catchError(payload => of(activitiesError({ payload })))
             )
-          })
+            )
+          ))
+
+
         )
-
-
       )
     )
   );

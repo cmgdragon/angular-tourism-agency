@@ -8,6 +8,11 @@ export const registerUser = createAction(
   props<{ user: User }>()
 );
 
+export const getLoggedUser = createAction(
+  '[USER] Get logged user',
+  props<{ id: number }>()
+);
+
 export const getUser = createAction(
   '[USER] Get user',
   props<{ id: number }>()

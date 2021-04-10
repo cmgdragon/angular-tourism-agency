@@ -46,7 +46,6 @@ export class UserEducationComponent implements OnChanges, OnInit {
 
   ngOnInit(): void {
     this.store.select("usersReducers").subscribe(({user}) => this.user = {...user});
-    //this.userService.getUser(this.userService.getUserId()).subscribe((user: User) => { this.user = user });
     this.educationGroup.markAllAsTouched();
     console.log(this.user)
   }
@@ -108,25 +107,15 @@ export class UserEducationComponent implements OnChanges, OnInit {
       this.user ={...this.user, education: [...this.user.education.filter((education, educationIndex) =>
       educationIndex !== this.educationIndex
     )]}
-    console.log(this.user)
     this.store.dispatch(updateUser({user: this.user}));
-      //this.updateInMemoryUser(this.user);
     }
 
-    this.education = undefined;
-  }
-
-  updateInMemoryUser(user: User): void {
-    this.userService.updateUser(user);
-    //this.modifiedEducation.emit(user);
     this.education = undefined;
   }
 
   updateEducation(): void {
 
     if (this.educationGroup.valid) {
-
-      //const educationIndex = this.educationIndex ?? undefined;
 
       if (this.educationIndex || this.educationIndex === 0) {
 
@@ -155,7 +144,6 @@ export class UserEducationComponent implements OnChanges, OnInit {
 
       this.store.dispatch(updateUser({user: this.user}));
       this.education = undefined;
-     // this.updateInMemoryUser(this.user);
       alert('Profile saved');
     }
 

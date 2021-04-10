@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Activity } from '../models/Activity';
-import { addNewActivity, addNewActivitySuccess, getActivities, activitiesError, getActivitiesSuccess, removeActivity, updateActivity, removeActivitySuccess, updateActivitySuccess, getTouristActivities, getTouristActivitiesSuccess } from '../actions';
+import { addNewActivity, addNewActivitySuccess, getActivities, activitiesError, getActivitiesSuccess, removeActivity, updateActivity, removeActivitySuccess, updateActivitySuccess, getTouristActivities, getTouristActivitiesSuccess, clearActivitiesState } from '../actions';
 
 export interface ActivityState {
   activities: Activity[],
@@ -52,10 +52,11 @@ const _activityReducer = createReducer(
     })
   }),
   on(getTouristActivities, state => ({ ...state, loading: true })),
-  on(getTouristActivitiesSuccess, (state, { activities }) => ({
+  on(getTouristActivitiesSuccess, (state, { activity }) => ({
     ...state,
-    activities
-  }))
+    activities: [...state.activities, activity]
+  })),
+  on(clearActivitiesState, state => activitiesInitalState)
 );
 
 export const activityReducer = (state, action) => _activityReducer(state, action);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { removeSession } from 'src/app/users/actions';
+import { getLoggedUser, removeSession } from 'src/app/users/actions';
 
 import { UserService } from '../../users/services/user.service';
 
@@ -19,6 +19,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    if (this.userService.getSession()) {
+      this.store.dispatch(getLoggedUser({ id: this.userService.getUserId()}));
+    }
+
     this.store.select("usersReducers").subscribe(({user}) => {
       setTimeout(() => {
         this.userType = user?.type ?? this.userService.getUserType()
@@ -32,9 +37,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut(): void {
-    this.userService.deleteSession();
     this.store.dispatch(removeSession());
-    location.href = '/';
+    location.href = '/login';
   }
 
 }

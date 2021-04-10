@@ -23,21 +23,16 @@ export class EducationListComponent implements OnInit {
   constructor(private userService: UserService, private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.userId = this.userService.getUserId(); //from cookies
-    this.userType = this.userService.getUserType(); //from cookies
-    this.store.select("usersReducers").subscribe(({ user }) => { //from state
+    this.userId = this.userService.getUserId(); //desde las cookies
+    this.userType = this.userService.getUserType(); //desde las cookies
+    this.store.select("usersReducers").subscribe(({ user }) => { //desde el state
       setTimeout(() => {
         this.user = user;
         this.educationList = this.user.education;
       }, 500);
 
-      //
     })
-    /* this.userService.getUser(this.userService.getUserId()).subscribe((user: User) =>
-       {
-         this.user = user;
-         this.educationList = user.education;
-       })*/
+
   }
 
   selectEducation(education: UserEducation, educationIndex: number, action: string): void {
@@ -50,10 +45,6 @@ export class EducationListComponent implements OnInit {
     this.selectedEducation = new UserEducation();
     this.selectedEducationIndex = undefined;
     this.action = 'add';
-  }
-
-  changeEducation(user: User) {
-    this.educationList = user.education;
   }
 
 }

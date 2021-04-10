@@ -42,6 +42,8 @@ export const getTouristActivities = createAction(
 );
 
 export const getTouristActivitiesSuccess = createAction(
-  '[ACTIVITY] Get tourist activities success',
-  props<{ activities: Activity[] }>()
+  '[ACTIVITY] Get tourist activity success',
+  props<{ activity: Activity }>()
 );
+
+export const clearActivitiesState = createAction('[ACTIVITY] Clear activities state');
