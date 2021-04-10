@@ -18,11 +18,6 @@ export const updateUser = createAction(
   props<{ user: User }>()
 );
 
-/*export const deleteEducation = createAction(
-  '[USER] Update education',
-  props<{ index: number }>()
-);*/
-
 export const registerUserSuccess = createAction('[USER] Register user success');
 export const updateUserSuccess = createAction(
   '[USER] Update user success',
@@ -31,7 +26,7 @@ export const updateUserSuccess = createAction(
 
 export const getUserSuccess = createAction(
   '[USER] Get user success',
-  props<{user: User}>()
+  props<{ user: User }>()
 );
 
 export const userError = createAction(

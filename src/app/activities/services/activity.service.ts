@@ -10,7 +10,7 @@ import { User } from '../../users/models/User';
 })
 export class ActivityService {
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(private http: HttpClient, private userService: UserService) { }
 
   getAllActivities(): Observable<Array<Activity>> {
     return this.http.get<Array<Activity>>('http://localhost:3000/activities');
@@ -27,7 +27,7 @@ export class ActivityService {
   checkIfUserHasSignedUp(userId: number, activityId: number): Promise<boolean> {
     return new Promise(resolve => {
       this.userService.getUser(userId).subscribe((user: User) => {
-        resolve( user.activities.includes(activityId) )
+        resolve(user.activities.includes(activityId))
       })
     })
   }
@@ -38,11 +38,11 @@ export class ActivityService {
 
   updateActivity(activity: Activity): Observable<any> {
     return this.http.put(`http://localhost:3000/activities/${activity.id}`, activity,
-    {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
   }
 
   deleteActivity(id: number): Observable<any> {

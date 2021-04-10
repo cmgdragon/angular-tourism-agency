@@ -8,7 +8,7 @@ import { AppState } from 'src/app/app.reducers';
 
 import { UserService } from 'src/app/users/services/user.service';
 import { ActivityService } from 'src/app/activities/services/activity.service';
-import { addNewActivity, removeActivity, updateActivity } from '../actions';
+import { addNewActivity, updateActivity } from '../actions';
 import { updateUser } from 'src/app/users/actions';
 
 @Component({
@@ -21,7 +21,6 @@ export class UserActivityComponent implements OnInit {
   @Input() activity: Activity;
   @Input() activityIndex: number;
   @Input() action: string;
-  @Output() modifiedActivity = new EventEmitter<Activity>();
 
   cultura_subcategory: Array<{ value: string, label: string }>;
   enoturismo_subcategory: Array<{ value: string, label: string }>;
@@ -65,7 +64,7 @@ export class UserActivityComponent implements OnInit {
   ngOnInit(): void {
 
     if (this.userId) {
-      this.store.select("usersReducers").subscribe(({user}) => {
+      this.store.select("usersReducers").subscribe(({ user }) => {
         setTimeout(() => {
           this.user = user
         }, 500);
@@ -78,11 +77,6 @@ export class UserActivityComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-
-    /*if (this.action === 'delete') {
-      this.deleteActivity();
-      return;
-    }*/
 
     if (this.activity) {
       this.setName = this.activity.name;
@@ -141,15 +135,6 @@ export class UserActivityComponent implements OnInit {
     this.changeCategory();
   }
 
-  deleteActivity(): void {
-
-  }
-
-  updateInMemoryActivity(activity: Activity): void {
-    this.modifiedActivity.emit(activity);
-    this.activity = undefined;
-  }
-
   updateActivity(): void {
 
     if (this.activityGroup.valid) {
@@ -170,14 +155,11 @@ export class UserActivityComponent implements OnInit {
 
     if (this.activity.id) {
       this.store.dispatch(updateActivity({ activity: this.activity }))
-      //this.activityService.updateActivity(this.activity);
-      //this.updateInMemoryActivity(this.activity);
+
     } else {
       this.activity.registered = [];
       this.store.dispatch(addNewActivity({ activity: this.activity }))
-      /*this.activityService.addActivity(this.activity).subscribe((newActivity: Activity) => {
-        this.updateInMemoryActivity(newActivity);
-      })*/
+
     }
 
     alert('Activity saved');

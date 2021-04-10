@@ -15,22 +15,34 @@
       "email": "carlos_ole1996@hotmail.com",
       "surname": "aaaaaaaaaaaaaa",
       "type": "company",
-      "password": "12345678",
+      "password": ".",
       "id": 1,
       "profile": {
         "birthdate": "25/12/1996",
         "nationality": "es",
         "nif": "00000000T"
       }
+    },
+    {
+      "activities": [],
+      "education": [],
+      "name": "cmgdragon2",
+      "email": "carlos_ole19962@hotmail.com",
+      "surname": "sdadadadaa",
+      "type": "tourist",
+      "password": ".",
+      "id": 2
     }
   ],
   "activities": [
     {
-      "registered": [],
+      "registered": [
+        2
+      ],
       "name": "cmgdragon2",
       "category": "enoturismo",
       "subcategory": "museovino",
-      "language": "ca",
+      "language": "Catalán",
       "date": "12/12/1996",
       "price": "32",
       "user": 1,
@@ -38,10 +50,10 @@
     },
     {
       "registered": [],
-      "name": "asdsadada2222",
+      "name": "asdsadeqmmmm",
       "category": "enoturismo",
       "subcategory": "museovino",
-      "language": "ca",
+      "language": "Catalán",
       "date": "12/12/1996",
       "price": "32",
       "user": 1,

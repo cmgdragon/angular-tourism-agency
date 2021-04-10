@@ -25,19 +25,19 @@ export class EducationListComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.userService.getUserId(); //from cookies
     this.userType = this.userService.getUserType(); //from cookies
-    this.store.select("usersReducers").subscribe(({user}) => { //from state
+    this.store.select("usersReducers").subscribe(({ user }) => { //from state
       setTimeout(() => {
         this.user = user;
         this.educationList = this.user.education;
-      }, 700);
+      }, 500);
 
       //
     })
-   /* this.userService.getUser(this.userService.getUserId()).subscribe((user: User) =>
-      {
-        this.user = user;
-        this.educationList = user.education;
-      })*/
+    /* this.userService.getUser(this.userService.getUserId()).subscribe((user: User) =>
+       {
+         this.user = user;
+         this.educationList = user.education;
+       })*/
   }
 
   selectEducation(education: UserEducation, educationIndex: number, action: string): void {

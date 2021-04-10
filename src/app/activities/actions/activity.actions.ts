@@ -32,6 +32,16 @@ export const removeActivity = createAction(
 );
 
 export const updateActivity = createAction(
-  '[ACTIVITY] Remove activity',
+  '[ACTIVITY] Update activity',
   props<{ activity: Activity }>()
+);
+
+export const getTouristActivities = createAction(
+  '[ACTIVITY] Get tourist activities',
+  props<{ id: number }>()
+);
+
+export const getTouristActivitiesSuccess = createAction(
+  '[ACTIVITY] Get tourist activities success',
+  props<{ activities: Activity[] }>()
 );

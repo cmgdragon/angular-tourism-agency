@@ -8,7 +8,7 @@ import { UserService } from 'src/app/users/services/user.service';
 
 import { User } from '../../users/models/User';
 import { ActivatedRoute } from '@angular/router';
-import { getActivities, getUserActivities, removeActivity } from '../actions';
+import { getActivities, getTouristActivities, getUserActivities, removeActivity } from '../actions';
 import { updateUser } from 'src/app/users/actions';
 
 @Component({
@@ -33,12 +33,12 @@ export class ActivityListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.store.select("activityReducers").subscribe(({activities}) => {
-        setTimeout(() => {
-          this.activityList = activities
-        }, 500);
-      });
-    this.route.data.subscribe(({type}) => {
+    this.store.select("activityReducers").subscribe(({ activities }) => {
+      setTimeout(() => {
+        this.activityList = activities
+      }, 500);
+    });
+    this.route.data.subscribe(({ type }) => {
 
       this.routeType = type;
       if (!this.userService.getUserId()) return;
@@ -47,23 +47,17 @@ export class ActivityListComponent implements OnInit {
         case 'home':
           /*this.activityService.getAllActivities().subscribe(data => {
             this.activityList = data; });*/
-            this.store.dispatch(getActivities());
+          this.store.dispatch(getActivities());
           break;
         case 'company':
           /*this.activityService.getUserActivities(this.userService.getUserId()).subscribe(data => {
             this.activityList = data; });*/
 
-            this.store.dispatch(getUserActivities({ id: this.userId }));
+          this.store.dispatch(getUserActivities({ id: this.userId }));
+          break;
         case 'tourist':
-          const activities: Array<Activity> = [];
-          this.userService.getUser(this.userService.getUserId()).subscribe((user: User) => {
-            for (const id of user.activities) {
-              this.activityService.getActivityById(id).subscribe((activity: Activity) => {
-                activities.push(activity);
-              })
-            }
-          })
-          this.activityList = activities;
+          console.log("tests")
+          this.store.dispatch(getTouristActivities({ id: this.userId }));
       }
 
     })
@@ -74,15 +68,11 @@ export class ActivityListComponent implements OnInit {
 
     this.action = action;
 
-    switch(action) {
+    switch (action) {
       case 'show':
         this.selectedActivity = undefined;
         this.activityService.getActivityById(activity.id).subscribe((activity: Activity) => {
           this.selectedActivity = activity;
-          if (this.userId) {
-            this.activityService.checkIfUserHasSignedUp(this.userId, activity.id).then(response =>
-              this.hasSignedUp = response)
-          }
         });
         this.selectedActivityIndex = activityIndex;
         break;
@@ -90,14 +80,14 @@ export class ActivityListComponent implements OnInit {
         this.selectedActivity = undefined;
         this.selectedActivity = activity;
         this.selectedActivityIndex = activityIndex;
-      break;
+        break;
 
       case 'delete':
         this.selectedActivity = undefined;
         console.log(activity.id + " WTFT?=¿??¿")
         if (confirm('Delete this activity?')) {
 
-          this.store.dispatch(removeActivity({ id: activity.id }));
+          //this.store.dispatch(removeActivity({ id: activity.id }));
 
           if (!activity?.registered || activity?.registered.length === 0) return;
 
@@ -120,7 +110,7 @@ export class ActivityListComponent implements OnInit {
         } else {
           this.selectedActivity = undefined;
           this.selectedActivityIndex = undefined;
-         }
+        }
     }
 
   }

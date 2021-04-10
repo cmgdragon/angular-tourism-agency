@@ -6,7 +6,7 @@
   <a *ngIf="!isLoggedIn()" routerLink="/login" routerLinkActive="active">Login</a>
   <a *ngIf="!isLoggedIn()" routerLink="/register" routerLinkActive="active">Register</a>
 
-  <a *ngIf="isLoggedIn() && userType === 'tourist'" href="#">Favorites</a>
+  <a *ngIf="isLoggedIn() && userType === 'tourist'" href="javascript:void(0)">Favorites</a>
   <a *ngIf="isLoggedIn() && userType === 'tourist'" routerLink="/my-activity" routerLinkActive="active">My Activity</a>
   <a *ngIf="isLoggedIn() && userType === 'company'" routerLink="/admin" routerLinkActive="active">Admin</a>
 
