@@ -26,7 +26,6 @@ export class UserActivityComponent implements OnInit {
   enoturismo_subcategory: Array<{ value: string, label: string }>;
   playa_subcategory: Array<{ value: string, label: string }>;
   selected_subcategory: any;
-  //activityList: Array<Activity>;
   userId: number;
   user: User;
 
@@ -70,8 +69,6 @@ export class UserActivityComponent implements OnInit {
         }, 500);
       });
 
-      //this.userService.getUser(this.userId).subscribe((user: User) => { this.user = user });
-      //this.activityService.getUserActivities(this.userId).subscribe((activities: Array<Activity>) => { this.activityList = activities });
     }
     this.activityGroup.markAllAsTouched();
   }
@@ -153,13 +150,13 @@ export class UserActivityComponent implements OnInit {
 
     }
 
-    if (this.activity.id) {
+    if (this.action === 'edit') {
       this.store.dispatch(updateActivity({ activity: this.activity }))
 
     } else {
       this.activity.registered = [];
       this.store.dispatch(addNewActivity({ activity: this.activity }))
-
+      this.activity = undefined;
     }
 
     alert('Activity saved');
